@@ -1,24 +1,30 @@
 package bajeti.susac.co.ke
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import bajeti.susac.co.ke.Fragments.ExpensesFragment
-import bajeti.susac.co.ke.Fragments.HomeFragment
-import bajeti.susac.co.ke.Fragments.IncomeFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import bajeti.susac.co.ke.classes.IncomeClass
+import bajeti.susac.co.ke.data.db.AppDatabase
+import bajeti.susac.co.ke.data.entity.IncomeEntity
+import bajeti.susac.co.ke.fragments.ExpensesFragment
+import bajeti.susac.co.ke.fragments.HomeFragment
+import bajeti.susac.co.ke.fragments.IncomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Set initial fragment
         replaceFragment(HomeFragment())
+
+
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
