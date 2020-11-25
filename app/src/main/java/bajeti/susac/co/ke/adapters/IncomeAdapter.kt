@@ -1,54 +1,50 @@
-package susac.co.ke.recyclerviewactivity
+package bajeti.susac.co.ke.adapters
 
 import android.content.Intent
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
+import bajeti.susac.co.ke.R
+import bajeti.susac.co.ke.classes.IncomeClass
+import kotlinx.android.synthetic.main.list_item_income.view.*
 
-class RecyclerAdapter(private val photos: ArrayList<Photo>) : RecyclerView.Adapter<RecyclerAdapter.PhotoHolder>()  {
+class IncomeAdapter(private val incomeList: ArrayList<IncomeClass>) : RecyclerView.Adapter<IncomeAdapter.ViewHolder>()  {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.PhotoHolder {
-        val inflatedView = parent.inflate(R.layout.recyclerview_item_row, false)
-        return PhotoHolder(inflatedView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_income, parent, false)
+        return ViewHolder(inflatedView)
     }
 
 
-    override fun getItemCount() = photos.size
+    override fun getItemCount() = incomeList.size
 
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.PhotoHolder, position: Int) {
-        val itemPhoto = photos[position]
-        holder.bindPhoto(itemPhoto)
+    override fun onBindViewHolder(holder: IncomeAdapter.ViewHolder, position: Int) {
+        val income = incomeList[position]
+        holder.bindIncome(income)
     }
 
 
     //1
-    class PhotoHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
         private var view: View = v
-        private var photo: Photo? = null
 
         init {
             v.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
-            val context = itemView.context
-            val showPhotoIntent = Intent(context, PhotoActivity::class.java)
-            showPhotoIntent.putExtra(PHOTO_KEY, photo)
-            context.startActivity(showPhotoIntent)
+            // Do stuff
+            Toast.makeText(v.context, "I was clicked!!!", Toast.LENGTH_LONG).show()
         }
 
-        fun bindPhoto(photo: Photo) {
-            this.photo = photo
-            Picasso.get().load(photo.url).into(view.itemImage)
-            view.itemDate.text = photo.humanDate
-            view.itemDescription.text = photo.explanation
+        fun bindIncome(incomeItem: IncomeClass) {
+            view.list_item_amount.text = incomeItem.amount.toString()
         }
-
 
         companion object {
             private val PHOTO_KEY = "PHOTO"
