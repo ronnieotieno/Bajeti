@@ -29,7 +29,6 @@ class IncomeFragment : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var incomeList: ArrayList<Income> = ArrayList()
 
-
     private lateinit var incomeRoomAdapter: IncomeRoomAdapter
 
     private lateinit var appDatabase: AppDatabase
@@ -57,33 +56,45 @@ class IncomeFragment : Fragment() {
         appDatabase = AppDatabase.getInstance(view.context)
         incomeDao = appDatabase.incomeDao
 
-
         // Set up adapter
-        incomeRoomAdapter = IncomeRoomAdapter(incomeList)
+        incomeRoomAdapter = IncomeRoomAdapter()
         recycler_view_income.adapter = incomeRoomAdapter
+
+        //initial initiation. just retrieving data without adding a new one, we have one function for both.
+         accessDbInBackground(null)
 
 
         // Add on click listener to addNewIncome button
         add_income.setOnClickListener {
             Toast.makeText(context, "Data added", Toast.LENGTH_LONG).show()
             val income = Income("Hustle", 1000)
-            incomeList.add(income)
 
-            // Save to db
-            AsyncTask.execute {
-                incomeDao.insert(income)
-                incomeList = incomeDao.getAll() as ArrayList<Income>
+            accessDbInBackground(income)
 
-            }
-            incomeRoomAdapter.notifyDataSetChanged()
+
+
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        AsyncTask.execute {
-            incomeList = incomeDao.getAll() as ArrayList<Income>
-        }
-        incomeRoomAdapter.notifyDataSetChanged()
+    private fun accessDbInBackground(income: Income?){
+        object : Thread() {
+            override fun run() {
+                super.run()
+
+                //Here we are checking if income is null or not. if its not we insert it
+                //remember that initially we dont have income and we passed null
+                income?.let {
+                    incomeDao.insert(income)
+                }
+
+                incomeList = incomeDao.getAll() as ArrayList<Income>
+
+                requireActivity().runOnUiThread {
+                    incomeRoomAdapter.setList(incomeList)
+                }
+
+            }
+
+        }.start()
     }
 }

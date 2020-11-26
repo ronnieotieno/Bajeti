@@ -11,10 +11,27 @@ import bajeti.susac.co.ke.data.entity.Income
 import bajeti.susac.co.ke.fragments.IncomeFragment
 import kotlinx.android.synthetic.main.list_item_income.view.*
 
-data class IncomeRoomAdapter(var incomeList: ArrayList<Income>) : RecyclerView.Adapter<IncomeRoomAdapter.ViewHolder>()  {
+class IncomeRoomAdapter() :
+    RecyclerView.Adapter<IncomeRoomAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeRoomAdapter.ViewHolder {
-        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.list_item_income, parent, false)
+    private val incomeList: ArrayList<Income> = arrayListOf()
+
+    //setting new list, avoid passing list as constructor
+
+    fun setList(newList: ArrayList<Income>) {
+
+        incomeList.clear()
+        incomeList.addAll(newList)
+        notifyDataSetChanged()
+
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): IncomeRoomAdapter.ViewHolder {
+        val inflatedView =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item_income, parent, false)
         return IncomeRoomAdapter.ViewHolder(inflatedView)
     }
 
