@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:text="Keep track of your income"
+        android:text="Track Your Income"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
@@ -81,12 +81,12 @@
             android:layout_marginVertical="10dp"
             android:layout_marginBottom="16dp"
             android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/button_create_new_shopping_list"
+            app:layout_constraintBottom_toTopOf="@+id/add_income"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/button_create_new_shopping_list"
+            android:id="@+id/add_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
