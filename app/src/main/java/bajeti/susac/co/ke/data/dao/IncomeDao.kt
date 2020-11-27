@@ -1,5 +1,6 @@
 package bajeti.susac.co.ke.data.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -10,6 +11,9 @@ interface IncomeDao {
 
     @Query("SELECT * FROM income_table")
     fun getAll(): List<Income>
+
+    @Query("SELECT * FROM income_table")
+    fun getAllLiveData(): LiveData<List<Income>>
 
     @Insert
     fun insertAll(vararg incomeList: Income)
