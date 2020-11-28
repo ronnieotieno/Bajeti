@@ -88,7 +88,7 @@ class IncomeFragment : Fragment(R.layout.fragment_income) {
 
             //Now Switch to MainThread
             withContext(Dispatchers.Main) {
-                //I have added livedata to handle this
+                //I have added livedata to  handle this
                 // incomeRoomAdapter.setList(incomeList)
             }
 

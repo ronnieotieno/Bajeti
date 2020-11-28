@@ -1,0 +1,63 @@
+Index: app/src/main/java/bajeti/susac/co/ke/fragments/IncomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bajeti.susac.co.ke.fragments\r\n\r\nimport android.content.Context\r\nimport android.content.DialogInterface\r\nimport android.os.AsyncTask\r\nimport android.os.Bundle\r\nimport android.os.Handler\r\nimport android.os.Looper\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.Toast\r\nimport androidx.appcompat.app.AlertDialog\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport bajeti.susac.co.ke.R\r\nimport bajeti.susac.co.ke.adapters.IncomeAdapter\r\nimport bajeti.susac.co.ke.classes.IncomeClass\r\nimport bajeti.susac.co.ke.data.adapter.IncomeRoomAdapter\r\nimport bajeti.susac.co.ke.data.dao.IncomeDao\r\nimport bajeti.susac.co.ke.data.db.AppDatabase\r\nimport bajeti.susac.co.ke.data.entity.Income\r\nimport kotlinx.android.synthetic.main.fragment_income.*\r\nimport kotlinx.coroutines.GlobalScope\r\nimport kotlinx.coroutines.launch\r\nimport kotlin.collections.ArrayList\r\n\r\nclass IncomeFragment : Fragment() {\r\n    private lateinit var linearLayoutManager: LinearLayoutManager\r\n    private var incomeList: ArrayList<Income> = ArrayList()\r\n\r\n    private lateinit var incomeRoomAdapter: IncomeRoomAdapter\r\n\r\n    private lateinit var appDatabase: AppDatabase\r\n    private lateinit var incomeDao: IncomeDao\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        // Add code\r\n    }\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        // Inflate the layout for this fragment\r\n        return inflater.inflate(R.layout.fragment_income, container, false)\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        linearLayoutManager = LinearLayoutManager(view.context)\r\n        recycler_view_income.layoutManager = linearLayoutManager\r\n\r\n        // Set up database\r\n        appDatabase = AppDatabase.getInstance(view.context)\r\n        incomeDao = appDatabase.incomeDao\r\n\r\n        // Set up adapter\r\n        incomeRoomAdapter = IncomeRoomAdapter()\r\n        recycler_view_income.adapter = incomeRoomAdapter\r\n\r\n        //initial initiation. just retrieving data without adding a new one, we have one function for both.\r\n         accessDbInBackground(null)\r\n\r\n\r\n        // Add on click listener to addNewIncome button\r\n        add_income.setOnClickListener {\r\n            Toast.makeText(context, \"Data added\", Toast.LENGTH_LONG).show()\r\n            val income = Income(\"Hustle\", 1000)\r\n\r\n            accessDbInBackground(income)\r\n\r\n\r\n\r\n        }\r\n    }\r\n\r\n    private fun accessDbInBackground(income: Income?){\r\n        object : Thread() {\r\n            override fun run() {\r\n                super.run()\r\n\r\n                //Here we are checking if income is null or not. if its not we insert it\r\n                //remember that initially we dont have income and we passed null\r\n                income?.let {\r\n                    incomeDao.insert(income)\r\n                }\r\n\r\n                incomeList = incomeDao.getAll() as ArrayList<Income>\r\n\r\n                requireActivity().runOnUiThread {\r\n                    incomeRoomAdapter.setList(incomeList)\r\n                }\r\n\r\n            }\r\n\r\n        }.start()\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/bajeti/susac/co/ke/fragments/IncomeFragment.kt	(revision 597bba6ca1464aa39b9688c482d6c34f372af876)
++++ app/src/main/java/bajeti/susac/co/ke/fragments/IncomeFragment.kt	(date 1606463654578)
+@@ -61,7 +61,7 @@
+         recycler_view_income.adapter = incomeRoomAdapter
+ 
+         //initial initiation. just retrieving data without adding a new one, we have one function for both.
+-         accessDbInBackground(null)
++        accessDbInBackground(null)
+ 
+ 
+         // Add on click listener to addNewIncome button
+@@ -72,11 +72,10 @@
+             accessDbInBackground(income)
+ 
+ 
+-
+         }
+     }
+ 
+-    private fun accessDbInBackground(income: Income?){
++    private fun accessDbInBackground(income: Income?) {
+         object : Thread() {
+             override fun run() {
+                 super.run()
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"ProjectCodeStyleConfiguration\">\r\n  <code_scheme name=\"Project\" version=\"173\">\r\n    <JetCodeStyleSettings>\r\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\r\n    </JetCodeStyleSettings>\r\n    <codeStyleSettings language=\"XML\">\r\n      <indentOptions>\r\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\r\n      </indentOptions>\r\n      <arrangement>\r\n        <rules>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:android</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:id</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>style</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>ANDROID_ATTRIBUTE_ORDER</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>.*</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n        </rules>\r\n      </arrangement>\r\n    </codeStyleSettings>\r\n    <codeStyleSettings language=\"kotlin\">\r\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\r\n    </codeStyleSettings>\r\n  </code_scheme>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision 597bba6ca1464aa39b9688c482d6c34f372af876)
++++ .idea/codeStyles/Project.xml	(date 1606463655065)
+@@ -1,6 +1,22 @@
+ <component name="ProjectCodeStyleConfiguration">
+   <code_scheme name="Project" version="173">
+     <JetCodeStyleSettings>
++      <option name="PACKAGES_TO_USE_STAR_IMPORTS">
++        <value>
++          <package name="java.util" alias="false" withSubpackages="false" />
++          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
++          <package name="io.ktor" alias="false" withSubpackages="true" />
++        </value>
++      </option>
++      <option name="PACKAGES_IMPORT_LAYOUT">
++        <value>
++          <package name="" alias="false" withSubpackages="true" />
++          <package name="java" alias="false" withSubpackages="true" />
++          <package name="javax" alias="false" withSubpackages="true" />
++          <package name="kotlin" alias="false" withSubpackages="true" />
++          <package name="" alias="true" withSubpackages="true" />
++        </value>
++      </option>
+       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
+     </JetCodeStyleSettings>
+     <codeStyleSettings language="XML">
